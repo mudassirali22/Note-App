@@ -63,17 +63,6 @@ try {
 // verify User 
 const verification = async (req, res)=>{
    try {
-    // const authHeader = req.headers.authorization;
-
-    // if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    //     return res.status(401).json({
-    //         success: false,
-    //         message: "Authorization token is mising or invalid"
-    //     })
-    // }
-
-    // const token = authHeader.split(" ")[1]
-    // Decode the token in case it was URL-encoded
     const token = decodeURIComponent(req.params.token);
     let decoded;
     try {
@@ -104,12 +93,6 @@ const verification = async (req, res)=>{
 
     user.isverified = true
     await user.save();
-
-    // return res.status(200).json({
-    //     success: true,
-    //     message: "Email Verified Successfully"
-    // })
-
         res.redirect(`${process.env.FRONTEND_URL}/login`)
 
    } catch (error) {

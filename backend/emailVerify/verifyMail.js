@@ -16,7 +16,7 @@ export const verifyMail = async (token, email) => {
         "utf-8"
     );
 
-    const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+    const backendUrl = process.env.BACKEND_URL || "https://note-app-backend-vbwg.onrender.com/";
     const verifyUrl = `${backendUrl}/user/verify/${encodeURIComponent(token)}`;
 
     const template = handlebars.compile(emailTemplateSource);
