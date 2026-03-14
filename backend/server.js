@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000
 const allowedOrigin = process.env.CLIENT_URL;
 
 app.use(cors({
-  origin: "https://note-app-07sv.onrender.com/",
+  origin: process.env.FRONTEND_URL,
   credentials: true
 }));
 
