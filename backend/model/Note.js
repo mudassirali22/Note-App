@@ -19,6 +19,27 @@ const noteSchema = new mongoose.Schema(
       trim: true,
     },
 
+    category: {
+      type: String,
+      enum: ["Personal", "Work", "Ideas", "Study"],
+      default: "Personal",
+    },
+
+    isPinned: {
+      type: Boolean,
+      default: false,
+    },
+
+    isArchived: {
+      type: Boolean,
+      default: false,
+    },
+
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+
     image: {
       type: String,
       default: null,

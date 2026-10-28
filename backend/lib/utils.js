@@ -34,7 +34,7 @@ function validateNotes(req) {
 
     const { title, description } = req.body;
         if (!title || !description ) {
-         throw new Error("All feild are required")
+         throw new Error("Title and description are required.")
         }
 }
 

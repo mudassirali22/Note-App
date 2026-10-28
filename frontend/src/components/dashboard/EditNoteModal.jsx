@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { X, Save, Loader2, AlertCircle } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { X, Save, Loader2, AlertCircle, Pin } from 'lucide-react';
 
 const EditNoteModal = ({ note, onClose, onUpdate }) => {
   const [title, setTitle] = useState(note?.title || '');
   const [description, setDescription] = useState(note?.description || '');
+  const [category, setCategory] = useState(note?.category || 'Personal');
+  const [isPinned, setIsPinned] = useState(Boolean(note?.isPinned));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -32,9 +34,9 @@ const EditNoteModal = ({ note, onClose, onUpdate }) => {
 
     setLoading(true);
     try {
-      await onUpdate(note._id, { title, description });
+      await onUpdate(note._id, { title: title.trim(), description: description.trim(), category, isPinned });
     } catch (err) {
-      setError("Failed to update note. Please try again.");
+      setError(err.message || "Failed to update note. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -97,17 +99,43 @@ const EditNoteModal = ({ note, onClose, onUpdate }) => {
 
           <div className="space-y-1.5">
             <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">
+              Category
+            </label>
+            <select
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+              className="note-edit-select"
+            >
+              <option>Personal</option>
+              <option>Work</option>
+              <option>Ideas</option>
+              <option>Study</option>
+            </select>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">
               Description
             </label>
             <textarea 
               placeholder="What's on your mind?"
               value={description} 
               onChange={(e) => setDescription(e.target.value)}
+              maxLength={500}
               rows="5" 
               className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none resize-none text-sm placeholder:text-slate-300" 
               required
             />
           </div>
+
+          <button
+            type="button"
+            className={`pin-toggle${isPinned ? ' selected' : ''}`}
+            onClick={() => setIsPinned((pinned) => !pinned)}
+            aria-pressed={isPinned}
+          >
+            <Pin size={14} />{isPinned ? 'Pinned for quick access' : 'Pin this note'}
+          </button>
           
           <div className="flex gap-3 pt-2">
             <button 

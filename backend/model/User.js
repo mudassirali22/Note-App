@@ -62,6 +62,41 @@ const userSchema = new mongoose.Schema(
        type: Date,
       default: null
     },
+
+      otpAttempts: {
+        type: Number,
+        default: 0,
+      },
+
+      otpLastSentAt: {
+        type: Date,
+        default: null,
+      },
+
+      passwordResetNonce: {
+        type: String,
+        default: null,
+      },
+
+      signupOtpHash: {
+        type: String,
+        default: null,
+      },
+
+      signupOtpExpiry: {
+        type: Date,
+        default: null,
+      },
+
+      signupOtpAttempts: {
+        type: Number,
+        default: 0,
+      },
+
+      signupOtpLastSentAt: {
+        type: Date,
+        default: null,
+      },
     
   },
   {

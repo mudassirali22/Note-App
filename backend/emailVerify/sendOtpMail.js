@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const sendOtpMail = async (email, otp) => {
+export const sendOtpMail = async (email, otp, purpose = "password-reset") => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -15,8 +15,10 @@ export const sendOtpMail = async (email, otp) => {
     const mailOption = {
             from: process.env.MAIL_ADDRESS,
             to: email,
-            subject: "Password Reset OTP",
-            html: `<p>Your OTP for Password reset is <b>${otp}</b>. It is Valid for 10 minutes.</p>`
+            subject: purpose === "signup" ? "Your NoteSpace verification code" : "Your password reset code",
+            html: purpose === "signup"
+                ? `<p>Use <b>${otp}</b> to verify your NoteSpace account. This code expires in 10 minutes.</p>`
+                : `<p>Use <b>${otp}</b> to reset your password. This code expires in 10 minutes.</p>`
     }
       
     await transporter.sendMail(mailOption)
